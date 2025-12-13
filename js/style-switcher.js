@@ -32,11 +32,21 @@ function changeColor() {
             document.querySelector(".style-switcher").classList.remove("open");
         }
     });
+
+    // Update particles when color changes
+    const isDark = document.body.classList.contains("dark");
+    if (typeof initParticles === "function") {
+        initParticles(isDark, getSkinColor());
+    }
 }
 
 // check if 'color' key exists
 if (localStorage.getItem("color") !== null) {
     changeColor();
+} else {
+    // If no color saved, still init particles with default
+    /* We can call initParticles directly or let window.onload handle it.
+       window.onload handles it at the bottom of the file. */
 }
 
 /*----------------------------- Theme light and dark mode -----------------------------------------*/
@@ -53,6 +63,12 @@ dayNight.addEventListener("click", () => {
         localStorage.setItem("theme", "light");
     }
     updateIcon();
+
+    // Update particles
+    const isDark = document.body.classList.contains("dark");
+    if (typeof initParticles === "function") {
+        initParticles(isDark, getSkinColor());
+    }
 })
 
 function themeMode() {
@@ -65,11 +81,12 @@ function themeMode() {
             document.body.classList.add("dark");
         }
     }
-    updateIcon();
 }
 
 
+
 themeMode();
+updateIcon();
 
 function updateIcon() {
     if (document.body.classList.contains("dark")) {
@@ -84,3 +101,26 @@ function updateIcon() {
         document.querySelector(".style-switcher").classList.remove("open");
     }
 }
+
+// Helper to get skin color
+function getSkinColor() {
+    const colorMap = {
+        "color-1": "#fb839e",
+        "color-2": "#ec9412",
+        "color-3": "#1fc586",
+        "color-4": "#2eb1ed",
+        "color-5": "#cc3a3b"
+    }
+    const currentColor = localStorage.getItem("color") || "color-1";
+    return colorMap[currentColor] || "#fb839e";
+}
+
+// Initialize particles on load
+window.addEventListener("load", () => {
+    // Only init if not already handled by changeColor (though calling twice is usually fine if it overwrites)
+    // Actually, ensuring it runs once everything is ready is good.
+    const isDark = document.body.classList.contains("dark");
+    if (typeof initParticles === "function") {
+        initParticles(isDark, getSkinColor());
+    }
+});
