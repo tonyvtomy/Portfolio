@@ -1798,8 +1798,89 @@ img {
   border-right-style: solid;
 }
 
-[class~=about-section] [class~=skills] [class~=skill-item] [class~=progress-bar] {
-  background-color: var(--text-black-600);
+.about-section .skills .skill-item .skill-title {
+  font-weight: 600;
+  color: var(--text-black-700);
+}
+
+.about-section .skills .skill-item .skill-sub {
+  font-size: 13px;
+  color: var(--text-black-600);
+}
+
+.about-section .skills .skill-item {
+  flex: 0 0 50%;
+  max-width: 50%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.about-section .skills .skill-icon {
+  width: 60px;
+  height: 60px;
+  /* glassy surface that adapts to theme */
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--bg-black-50) 70%, transparent),
+    color-mix(in srgb, var(--bg-black-900) 20%, transparent)
+  );
+  border: 1px solid var(--skin-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 14px;
+  position: relative;
+  overflow: hidden;
+  /* stylized shield shape inspired by reference */
+  clip-path: polygon(12% 28%, 50% 6%, 88% 28%, 74% 90%, 26% 90%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.about-section .skills .skill-icon::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid color-mix(in srgb, var(--text-black-600) 55%, transparent);
+  clip-path: polygon(16% 32%, 50% 10%, 84% 32%, 72% 86%, 28% 86%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 55%);
+}
+
+.about-section .skills .skill-icon i {
+  color: var(--skin-color);
+  font-size: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.about-section .skills .skill-icon::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  opacity: 0;
+  transform: translateX(-40%) rotate(8deg);
+  transition: opacity .5s ease, transform .5s ease;
+  pointer-events: none;
+}
+
+.about-section .skills .skill-item:hover .skill-icon::after {
+  opacity: 1;
+  transform: translateX(10%) rotate(8deg);
+}
+
+.about-section .skills .skill-item:hover .skill-icon {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  transform: translateY(-3px);
+  transition: box-shadow .3s ease, transform .3s ease;
+}
+
+@media (max-width: 768px) {
+  .about-section .skills .skill-item {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
 
 [class~=about-section] [class~=skills] {
